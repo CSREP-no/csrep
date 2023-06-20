@@ -1,33 +1,41 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import prisma from "@/lib/prisma";
-import { compare } from "bcrypt";
+import prisma from '@/lib/prisma';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import NextAuth, { type NextAuthOptions } from 'next-auth';
 
 export const authOptions: NextAuthOptions = {
-  providers: [
-    CredentialsProvider({
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        const { email, password } = credentials ?? {}
-        if (!email || !password) {
-          throw new Error("Missing username or password");
-        }
-        const user = await prisma.user.findUnique({
-          where: {
-            email,
-          },
-        });
-        // if user doesn't exist or password doesn't match
-        if (!user || !(await compare(password, user.password))) {
-          throw new Error("Invalid username or password");
-        }
-        return user;
-      },
-    }),
-  ],
+	providers: [
+		{
+			id: 'vipps',
+			name: 'Vipps',
+			type: 'oauth',
+			wellKnown:
+				'https://apitest.vipps.no/access-management-1.0/access/.well-known/openid-configuration',
+			authorization: {
+				params: {
+					scope: 'openid name email phoneNumber',
+				},
+			},
+			idToken: true,
+			checks: ['pkce', 'state'],
+			userinfo: {
+				async request({ client, tokens }) {
+					return await client.userinfo(tokens.access_token!);
+				},
+			},
+			profile: (profile) => {
+				return {
+					id: profile.sub,
+					name: profile.name,
+					email: profile.email,
+					phoneNumber: profile.phone_number,
+				};
+			},
+			clientId: process.env.VIPPS_CLIENT_ID,
+			clientSecret: process.env.VIPPS_CLIENT_SECRET,
+		},
+	],
+	// @ts-ignore
+	adapter: PrismaAdapter(prisma),
 };
 
 const handler = NextAuth(authOptions);
