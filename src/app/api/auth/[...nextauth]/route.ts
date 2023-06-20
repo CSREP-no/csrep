@@ -1,4 +1,5 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { env } from '@src/env.mjs';
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import prisma from 'src/lib/prisma';
 
@@ -9,7 +10,9 @@ export const authOptions: NextAuthOptions = {
 			name: 'Vipps',
 			type: 'oauth',
 			wellKnown:
-				'https://apitest.vipps.no/access-management-1.0/access/.well-known/openid-configuration',
+				process.env.NODE_ENV === 'production'
+					? 'https://api.vipps.no/access-management-1.0/access/.well-known/openid-configuration'
+					: 'https://apitest.vipps.no/access-management-1.0/access/.well-known/openid-configuration',
 			authorization: {
 				params: {
 					scope: 'openid name email phoneNumber',
@@ -30,8 +33,8 @@ export const authOptions: NextAuthOptions = {
 					phoneNumber: profile.phone_number,
 				};
 			},
-			clientId: process.env.VIPPS_CLIENT_ID,
-			clientSecret: process.env.VIPPS_CLIENT_SECRET,
+			clientId: env.VIPPS_CLIENT_ID,
+			clientSecret: env.VIPPS_CLIENT_SECRET,
 		},
 	],
 	// @ts-ignore
