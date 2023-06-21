@@ -1,4 +1,4 @@
-import { env } from '@src/env.mjs';
+import { env } from '@/env.mjs';
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 

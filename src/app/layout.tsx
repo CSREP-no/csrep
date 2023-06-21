@@ -1,5 +1,4 @@
-// These styles apply to every route in the application
-import '@/styles/globals.css';
+import '@styles/globals.css';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -8,7 +7,7 @@ const inter = Inter({
 	subsets: ['latin'],
 });
 
-const title = 'Next.js Prisma Postgres Auth Starter';
+const title = 'CSREP.no';
 const description =
 	'This is a Next.js starter kit that uses Next-Auth for simple email + password login and a Postgres database to persist the data.';
 
@@ -20,8 +19,8 @@ export const metadata: Metadata = {
 		title,
 		description,
 	},
-	metadataBase: new URL('https://nextjs-postgres-auth.vercel.app'),
-	themeColor: '#FFF',
+	metadataBase: new URL('https://www.csrep.no/'),
+	themeColor: '#000',
 };
 
 export default async function RootLayout({
