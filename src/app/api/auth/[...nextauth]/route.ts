@@ -1,7 +1,7 @@
 import { env } from '@/env.mjs';
+import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth, { type NextAuthOptions } from 'next-auth';
-import prisma from 'src/lib/prisma';
 
 export const authOptions: NextAuthOptions = {
 	providers: [
