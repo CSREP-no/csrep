@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import { inter } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import { Metadata } from "next";
 
 const title = "CSREP.no";
@@ -56,8 +57,11 @@ export default async function RootLayout({
         <div className="h-[95vh] w-screen">
           <Header />
           {children}
+          <Analytics />
         </div>
         <Footer />
+        {/* ANALYTICS */}
+        <Analytics />
       </body>
     </html>
   );
