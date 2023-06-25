@@ -29,8 +29,8 @@ const links: LinkItem[] = [
 const Footer = () => {
   return (
     <footer className="flex w-full justify-center py-4 text-primary-foreground">
-      <div className="grid grid-cols-1 space-x-10 md:grid-cols-2">
-        <div className="flex w-[500px] items-center space-x-2">
+      <div className="grid grid-cols-1 space-x-10 space-y-5 px-2 md:grid-cols-2">
+        <div className="flex items-center space-x-2 md:w-[500px]">
           <Image
             src="/images/csrep.png"
             width={200}
@@ -47,7 +47,7 @@ const Footer = () => {
             <p>Org. nr. 930 736 937</p>
           </div>
         </div>
-        <div className="flex w-[500px] flex-col">
+        <div className="flex flex-col md:w-[500px]">
           <p className="text-xl font-semibold">Snarveier</p>
           <ul>
             {links.map((link) => (
